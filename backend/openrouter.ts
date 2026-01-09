@@ -1,15 +1,23 @@
 type Model= 'openai/gpt-4o' | 'openai/gpt-5';
+const OPENROUTER_KEY= process.env.OPENROUTER_KEY!;
 
-export const createCompletion = async (message:string, model= Model) => { 
+type Role = "agent" | "user";
+
+type Message = {
+    content: string,
+    role: Role
+}
+
+export const createCompletion = async (messages:Message[], model:Model) => { 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
-        Authorization: `Bearer <OPENROUTER_API_KEY>`,
+        Authorization: `Bearer ${OPENROUTER_KEY}`,
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
         model: 'openai/gpt-4o',
-        messages: [{ role: 'user', content: question }],
+        messages: messages,
         stream: true,
     }),
     });

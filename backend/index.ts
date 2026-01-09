@@ -1,5 +1,6 @@
 import express from 'express';
 import { CreateChatSchema } from './types';
+import { createCompletion } from './openrouter';
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.post('/chat', (req,res) => {
         })
         return 
     }
-    const { message } = data;
+    createCompletion(data);
 
 });
 
